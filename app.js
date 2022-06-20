@@ -7,6 +7,7 @@ mongoose.connect('mongodb+srv://adebayo17108:adebayo17108@node-rest-shop.3gycd.m
 {
     useNewUrlParser: true 
 });
+mongoose.Promise = global.Promise;
 
 
 const app = express();
