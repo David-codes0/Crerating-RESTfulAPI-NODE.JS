@@ -5,9 +5,18 @@
  
 
  router.get('/', (req, res, next) => {
-   res.status(200).json({
-    message: 'Handling GET requests to /products'
-   });
+  Product.find()
+  .exec()
+  .then(docs => {
+    console.log(docs);
+    res.status(200).json(docs);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  })
  });
  router.post('/', (req, res, next) => {
     // const product = {
@@ -38,7 +47,14 @@
     .exec()
     .then(doc => {
       console.log("From Database",doc);
-      res.status(200).json(doc);
+      if (doc){
+        res.status(200).json(doc);
+      }else{
+        res.status(404).json({
+          message: 'No Valid entry found for provided ID'
+        });
+      }
+      
     })
     .catch(err => {
       console.log(err);
@@ -65,9 +81,19 @@
      message: 'Updated product!'
     });
   });
-  router.delete('/',(req, res, next) => {
-    res.status(200).json({
-     message: 'Delete product!'
+  router.delete('/:productId',(req, res, next) => {
+    const id = req.params.productId;
+
+    Product.remove({_id : id})
+    .exec()
+    .then(result => {
+      res.status(200).json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
     });
   });
   module.exports = router;
