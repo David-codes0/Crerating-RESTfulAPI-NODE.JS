@@ -5,7 +5,7 @@ const mongoose = require('mongoose'); // mongoose to create ID
 const Product = require('../models/product');
 const checkAuth = require('../middleware/check-auth');
 
- router.get('/', (req, res, next) => {
+ router.get('/',checkAuth, (req, res, next) => {
     Order.find().select('quantity _id product')
     .populate('product')
     .exec()
@@ -35,7 +35,7 @@ const checkAuth = require('../middleware/check-auth');
   
   });
 
-  router.post('/', (req, res, next) => {
+  router.post('/', checkAuth,(req, res, next) => {
     Product.findById(req.body.productId)
     .then(product => {
       if (!product){
