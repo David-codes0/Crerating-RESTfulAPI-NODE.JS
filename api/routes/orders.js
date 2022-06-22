@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose'); // mongoose to create ID
  const Order = require('../models/order');
 const Product = require('../models/product');
+const checkAuth = require('../middleware/check-auth');
 
  router.get('/', (req, res, next) => {
     Order.find().select('quantity _id product')
