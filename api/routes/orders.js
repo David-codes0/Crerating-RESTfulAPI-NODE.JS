@@ -77,7 +77,7 @@ const checkAuth = require('../middleware/check-auth');
   });
 
   // Handles incoming GET requests to /orders
-  router.get('/:orderId', (req, res, next) => {
+  router.get('/:orderId',checkAuth, (req, res, next) => {
     Order.findById(req.params.orderId)
     .populate('product', 'name')
     .exec()
@@ -108,7 +108,7 @@ const checkAuth = require('../middleware/check-auth');
     
   });
 
-  router.delete('/:orderId', (req, res, next) => {
+  router.delete('/:orderId',checkAuth, (req, res, next) => {
     Order.remove({_id : req.params.orderId})
     .exec()
     .then(result => {
